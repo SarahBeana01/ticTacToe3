@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
+    <string name="help">Help</string>
+    <string name="new_game">New Game</string>
+    //Strings that will be displayed in the current_turn textview
+    <string name="x_turn">X\'s turn</string>
+    <string name="o_turn">O\'s turn</string>
+
+    //These will be used to set the content description
+    <string name="letter_x">X</string>
+    <string name="letter_o">O</string>
+    <string name='empty'>Empty</string>
+
 </resources>
