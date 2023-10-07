@@ -17,6 +17,12 @@ public class MainActivity extends AppCompatActivity {
     Drawable xIcon;
     Drawable oIcon;
 
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.appbar_menu, menu);
+        return true;
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,5 +126,10 @@ public class MainActivity extends AppCompatActivity {
         // Creates public method called onNewGameClick
         startGame();
         // Calls function startGame
+    }
+     public void onQuitClick(View view){
+        FragmentManager manager = getSupportFragmentManager();
+        QuitDialogFragment dialogFragment = new QuitDialogFragment();
+        dialogFragment.show(manager, "quitDialog");
     }
 }
