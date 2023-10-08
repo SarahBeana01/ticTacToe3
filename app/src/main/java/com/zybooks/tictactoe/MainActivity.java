@@ -1,12 +1,18 @@
 package com.zybooks.tictactoe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,12 +22,8 @@ public class MainActivity extends AppCompatActivity {
     public Character currentTurn = 'X';
     Drawable xIcon;
     Drawable oIcon;
-
-    @Override
-    public boolean onCreateOptionsMenu (Menu menu){
-        getMenuInflater().inflate(R.menu.appbar_menu, menu);
-        return true;
-    }
+    Drawable whiteForeground;
+    TextView whosTurnText;
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
@@ -31,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        xIcon = getDrawable(R.mipmap.ticatac_xicon);
-        oIcon = getDrawable(R.mipmap.ticatac_oicon);
+        xIcon = getDrawable(R.drawable.x_icon);
+        oIcon = getDrawable(R.drawable.o_icon);
+        whiteForeground = getDrawable(R.drawable.ticatac_white_box_foreground);
+        whosTurnText = findViewById(R.id.current_turn);
         mGridView = findViewById(R.id.game_grid);
         mGame = new ticTacToeGame();
 
@@ -58,6 +62,20 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.appbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.action_new_game) {
+            startGame();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void onImageButtonClick(View view) {
         //This is called whenever you click a light-button
 
@@ -71,8 +89,13 @@ public class MainActivity extends AppCompatActivity {
         int col = buttonIndex % ticTacToeGame.GRID_SIZE;
         //This finds the column using the remainder operator, I'm not going to pretend like I understand it
 
+        //This prevents players from overwriting others spots.
+        if(mGame.getCurrentSymbol(row, col) != 'W') {
+            return;
+        }
+
         mGame.selectImageButton(row, col, currentTurn);
-        //This calls the selectLight method from LightsOutGame on the current cell, this method is responsible for inverting the lights
+        //This calls the selectImageButton method from ticTacToeGame on the current child
 
         setButtonImages();
         //without this the buttons would be invisible
@@ -80,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
         //This swaps the turn to the next person
         if(currentTurn == 'X') {
             currentTurn = 'O';
+            whosTurnText.setText(R.string.o_turn);
         } else {
             currentTurn = 'X';
+            whosTurnText.setText(R.string.x_turn);
         }
 
         // Congratulate the user if the game is over
@@ -106,14 +131,14 @@ public class MainActivity extends AppCompatActivity {
             int col = buttonIndex % ticTacToeGame.GRID_SIZE;
 
             if (mGame.getCurrentSymbol(row, col) == 'X') {
-                gridButton.setBackground(xIcon);
+                gridButton.setImageDrawable(xIcon);
                 gridButton.setContentDescription(Integer.toString(R.string.letter_x));
             }
             else if (mGame.getCurrentSymbol(row, col) == 'O') {
-                gridButton.setBackground(oIcon);
+                gridButton.setImageDrawable(oIcon);
                 gridButton.setContentDescription(Integer.toString(R.string.letter_o));
             } else {
-                gridButton.setBackgroundColor(getColor(R.color.white));
+                gridButton.setImageDrawable(whiteForeground);
             }
         }
     }
@@ -122,11 +147,7 @@ public class MainActivity extends AppCompatActivity {
         setButtonImages();
      }
 
-    public void onNewGameClick(View view) {
-        // Creates public method called onNewGameClick
-        startGame();
-        // Calls function startGame
-    }
+
      public void onQuitClick(View view){
         FragmentManager manager = getSupportFragmentManager();
         QuitDialogFragment dialogFragment = new QuitDialogFragment();

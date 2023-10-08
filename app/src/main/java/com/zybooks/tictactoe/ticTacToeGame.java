@@ -13,6 +13,7 @@ public class ticTacToeGame extends AppCompatActivity {
     //This will be used to create an instance of this class over in other places.
     public ticTacToeGame() {
         mGameGrid = new char[GRID_SIZE][GRID_SIZE];
+        newGame();
     }
 
     /*
@@ -39,7 +40,6 @@ public class ticTacToeGame extends AppCompatActivity {
     }
 
     public void selectImageButton(int row, int col, char currentTurn) {
-        //This is what inverts the lights when you tap them, it takes the coordinates and passes them along though the method
         mGameGrid[row][col] = currentTurn;
     }
 
@@ -77,24 +77,24 @@ public class ticTacToeGame extends AppCompatActivity {
                 whoWon = mGameGrid[0][index] + " won the game";
                 return true;
             }
-            //these next two should be checking the diagonals for matches.
-            if(mGameGrid[0][0] == mGameGrid[1][1] && mGameGrid[1][1] == mGameGrid[2][2] && mGameGrid[0][0] != 'W') {
-                whoWon = mGameGrid[0][0] + " won the game";
-                return true;
-            }
-            if(mGameGrid[0][2] == mGameGrid[1][1] && mGameGrid[1][1] == mGameGrid[2][0] && mGameGrid[0][2] != 'W') {
-                whoWon = (mGameGrid[0][2]) + " won the game";
-                return true;
-            }
         }
-        if (anyEmpty()) {
+        //these next two should be checking the diagonals for matches.
+        if(mGameGrid[0][0] == mGameGrid[1][1] && mGameGrid[1][1] == mGameGrid[2][2] && mGameGrid[0][0] != 'W') {
+            whoWon = mGameGrid[0][0] + " won the game";
+            return true;
+        }
+        if(mGameGrid[0][2] == mGameGrid[1][1] && mGameGrid[1][1] == mGameGrid[2][0] && mGameGrid[0][2] != 'W') {
+            whoWon = (mGameGrid[0][2]) + " won the game";
+            return true;
+        }
+        if (allFilled()) {
             whoWon = "CAT";
             return true;
         }
         return false;
     }
 
-    public boolean anyEmpty() {
+    public boolean allFilled() {
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
 
