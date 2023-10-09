@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_new_game"
+        android:icon="@drawable/new_game"
+        android:title="@string/new_game"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_quit"
+        android:icon="@drawable/tictac_close"
+        android:title="@string/quit_game"
+        app:showAsAction="ifRoom"/>
+</menu>
+

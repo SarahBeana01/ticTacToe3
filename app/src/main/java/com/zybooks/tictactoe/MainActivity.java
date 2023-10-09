@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.action_new_game) {
             startGame();
         }
+        if(item.getItemId() == R.id.action_quit) {
+            quitGame();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -148,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
      }
 
 
-     public void onQuitClick(View view){
+     public void quitGame(){
         FragmentManager manager = getSupportFragmentManager();
         QuitDialogFragment dialogFragment = new QuitDialogFragment();
         dialogFragment.show(manager, "quitDialog");
